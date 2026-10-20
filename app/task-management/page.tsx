@@ -201,7 +201,7 @@ export default function TaskManagement() {
   }
 
   return (
-    <div className="p-6 space-y-6 mx-auto">
+    <div className="p-3 sm:p-6 space-y-6 mx-auto w-full max-w-full min-w-0">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
@@ -325,16 +325,16 @@ export default function TaskManagement() {
       </Card>
 
       {/* Tasks Table */}
-      <Card>
+      <Card className="overflow-hidden w-full max-w-full min-w-0">
         <CardHeader className="py-4 border-b">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
             <div>
               <CardTitle className="text-base">Tasks</CardTitle>
               <CardDescription>
                 Showing {rows.length} of {tasks.length} total tasks
               </CardDescription>
             </div>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               <Badge variant="outline" className="font-normal">
                 {rows.filter((t) => t.status === "done").length} Completed
               </Badge>
@@ -344,18 +344,24 @@ export default function TaskManagement() {
             </div>
           </div>
         </CardHeader>
-        <CardContent className="p-0">
-          <Table className="w-full table-fixed">
+        <CardContent className="p-0 overflow-hidden min-w-0">
+          {/* Mobile Scroll Hint */}
+          <div className="flex items-center gap-2 text-xs text-muted-foreground lg:hidden px-4 py-2 bg-muted/40 border-b">
+            <span className="font-medium text-foreground">💡 Tip:</span>
+            <span>Swipe left / right to scroll table columns</span>
+          </div>
+          <div className="w-full overflow-x-auto min-w-0">
+            <Table className="w-full min-w-[1050px] table-auto">
             <TableHeader>
               <TableRow className="hover:bg-transparent">
-                <TableHead className="w-[30%] min-w-[200px]">Task</TableHead>
-                <TableHead className="w-[18%] min-w-[130px]">Project</TableHead>
-                <TableHead className="w-[16%] min-w-[120px]">Assignees</TableHead>
-                <TableHead className="w-[100px] whitespace-nowrap">Priority</TableHead>
-                <TableHead className="w-[120px] whitespace-nowrap">Status</TableHead>
-                <TableHead className="w-[100px] whitespace-nowrap">Progress</TableHead>
-                <TableHead className="w-[140px] whitespace-nowrap">Dates</TableHead>
-                <TableHead className="w-[80px] text-right whitespace-nowrap">Actions</TableHead>
+                <TableHead className="min-w-[260px] max-w-[340px]">Task</TableHead>
+                <TableHead className="min-w-[160px] max-w-[220px]">Project</TableHead>
+                <TableHead className="min-w-[150px] max-w-[200px]">Assignees</TableHead>
+                <TableHead className="w-[100px] min-w-[100px] whitespace-nowrap">Priority</TableHead>
+                <TableHead className="w-[130px] min-w-[130px] whitespace-nowrap">Status</TableHead>
+                <TableHead className="w-[110px] min-w-[110px] whitespace-nowrap">Progress</TableHead>
+                <TableHead className="w-[150px] min-w-[150px] whitespace-nowrap">Dates</TableHead>
+                <TableHead className="w-[85px] min-w-[85px] text-right whitespace-nowrap">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -386,8 +392,8 @@ export default function TaskManagement() {
               ) : (
                 paginatedRows.map((t) => (
                   <TableRow key={t.id} className="group">
-                    <TableCell className="align-top py-3 font-medium whitespace-normal break-words">
-                      <div className="space-y-0.5">
+                    <TableCell className="align-top py-3 min-w-[260px] max-w-[340px]">
+                      <div className="space-y-0.5 whitespace-normal break-words">
                         <span
                           className="font-semibold text-foreground hover:underline cursor-pointer leading-snug break-words block"
                           onClick={() => setEditing(t)}
@@ -401,14 +407,14 @@ export default function TaskManagement() {
                         )}
                       </div>
                     </TableCell>
-                    <TableCell className="align-top py-3 whitespace-normal break-words">
-                      <span className="text-xs text-muted-foreground font-medium leading-snug break-words block">
+                    <TableCell className="align-top py-3 min-w-[160px] max-w-[220px]">
+                      <div className="whitespace-normal break-words text-xs text-muted-foreground font-medium leading-snug">
                         {t.project_name || "—"}
-                      </span>
+                      </div>
                     </TableCell>
-                    <TableCell className="align-top py-3 whitespace-normal break-words">
+                    <TableCell className="align-top py-3 min-w-[150px] max-w-[200px]">
                       {t.assignees && t.assignees.length > 0 ? (
-                        <div className="flex flex-wrap gap-1">
+                        <div className="flex flex-wrap gap-1 whitespace-normal">
                           {t.assignees.map((name, i) => (
                             <Badge
                               key={i}
@@ -423,8 +429,8 @@ export default function TaskManagement() {
                         <span className="text-xs text-muted-foreground">Unassigned</span>
                       )}
                     </TableCell>
-                    <TableCell className="align-top py-3 whitespace-nowrap">{getPriorityBadge(t.priority)}</TableCell>
-                    <TableCell className="align-top py-3 whitespace-nowrap">
+                    <TableCell className="align-top py-3 whitespace-nowrap min-w-[100px]">{getPriorityBadge(t.priority)}</TableCell>
+                    <TableCell className="align-top py-3 whitespace-nowrap min-w-[130px]">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                           <Button
@@ -450,7 +456,7 @@ export default function TaskManagement() {
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
-                    <TableCell className="align-top py-3 whitespace-nowrap">
+                    <TableCell className="align-top py-3 whitespace-nowrap min-w-[110px]">
                       <div className="w-20 space-y-1">
                         <div className="flex justify-between text-[11px] text-muted-foreground">
                           <span>{t.progress}%</span>
@@ -458,7 +464,7 @@ export default function TaskManagement() {
                         <Progress value={t.progress} className="h-1.5" />
                       </div>
                     </TableCell>
-                    <TableCell className="align-top py-3 whitespace-nowrap">
+                    <TableCell className="align-top py-3 whitespace-nowrap min-w-[150px]">
                       <div className="flex items-center gap-1 text-[10px] text-muted-foreground">
                         <Calendar className="size-3 shrink-0" />
                         <span>
@@ -468,7 +474,7 @@ export default function TaskManagement() {
                         </span>
                       </div>
                     </TableCell>
-                    <TableCell className="align-top py-3 text-right whitespace-nowrap">
+                    <TableCell className="align-top py-3 text-right whitespace-nowrap min-w-[85px]">
                       <div className="flex items-center justify-end gap-1">
                         <Button
                           variant="ghost"
@@ -494,10 +500,11 @@ export default function TaskManagement() {
               )}
             </TableBody>
           </Table>
-        </CardContent>
+        </div>
+      </CardContent>
 
         {rows.length > 0 && (
-          <CardFooter className="flex flex-col sm:flex-row items-center justify-between gap-4 py-3 px-6 border-t bg-muted/20">
+          <CardFooter className="flex flex-col sm:flex-row items-center justify-between gap-4 py-3 px-4 sm:px-6 border-t bg-muted/20">
             <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
               <span>
                 Showing <span className="font-semibold text-foreground">{startIndex + 1}</span> to{" "}
