@@ -55,11 +55,11 @@ export default function RootLayout({
             <Toaster richColors position="top-right" />
               <SidebarProvider defaultOpen>
                 <AppSidebar />
-                <SidebarInset className="flex h-screen min-h-0 flex-1 flex-col overflow-hidden bg-primary/5">
+                <SidebarInset className="flex h-screen min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-primary/5">
                   <div className="shrink-0">
                     <Navbar />
                   </div>
-                  <main className="min-h-0 flex-1 overflow-y-auto">
+                  <main className="min-h-0 min-w-0 flex-1 overflow-y-auto">
                     {children}
                   </main>
                 </SidebarInset>
